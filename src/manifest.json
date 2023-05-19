@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "BTC Gas Tracker",
+  "description": "A chrome extension to track btc gas fee and show btc price",
+  "options_page": "options.html",
+  "background": { "service_worker": "background.bundle.js" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/icons/bitcoin.png",
+      "32": "assets/icons/bitcoin.png",
+      "48": "assets/icons/bitcoin.png",
+      "128": "assets/icons/bitcoin.png"
+    },
+    "default_title": "BTC Gas Tracker"
+  },
+  "chrome_url_overrides": {
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "alarms"
+  ],
+  "icons": {
+    "16": "assets/icons/bitcoin.png",
+    "32": "assets/icons/bitcoin.png",
+    "48": "assets/icons/bitcoin.png",
+    "128": "assets/icons/bitcoin.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "js": ["contentScript.bundle.js"],
+      "css": ["content.styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content.styles.css", "assets/icons/bitcoin.png", "iassets/icons/bitcoin.png"],
+      "matches": []
+    }
+  ]
+}
