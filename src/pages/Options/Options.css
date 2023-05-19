@@ -1,8 +1,60 @@
+body {
+  background: linear-gradient(to bottom, #f7931a, #fbb034, #f7931a);
+}
 .OptionsContainer {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+input[type="number"],
+select {
+  display: block;
   width: 100%;
-  height: 50vh;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0069d9;
+}
+
+button:active {
+  background-color: #005cbf;
+}
+
+button.secondary {
+  background-color: #6c757d;
+}
+
+button.secondary:hover {
+  background-color: #5a6268;
+}
+
+button.secondary:active {
+  background-color: #484e55;
 }

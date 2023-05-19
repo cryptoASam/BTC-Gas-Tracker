@@ -17,9 +17,9 @@
   "chrome_url_overrides": {
   },
   "permissions": [
-    "activeTab",
-    "storage",
-    "alarms"
+    "alarms",
+    "notifications",
+    "storage"
   ],
   "icons": {
     "16": "assets/icons/bitcoin.png",

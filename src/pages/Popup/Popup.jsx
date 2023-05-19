@@ -3,6 +3,10 @@ import browser from 'webextension-polyfill';
 import './Popup.css';
 import { useState, useEffect } from 'react';
 
+function settingClick() {
+  chrome.runtime.openOptionsPage();
+}
+
 const Popup = () => {
   const [price, setPrice] = useState(0);
   const [fastGasPriceText, setFastGasPriceText] = useState(0);
@@ -50,12 +54,15 @@ const Popup = () => {
       console.log(error);
     }
   }
-  useEffect(async() => {
-    setLoading(true);
-    await getGasPrice();
-    setLoading(false); 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      await getGasPrice();
+      setLoading(false);
+    };
+    fetchData();
     const interval = setInterval(() => {
-      getGasPrice();
+      fetchData();
     }, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -116,9 +123,9 @@ const Popup = () => {
             <div className='gasSingleText'>{`${cheapGasPriceText}`}</div>
             <div className='gasSingleText'>{`${cheapGasPriceTextUsd}`}</div>
           </div>
-        
         </div>
       </div>
+      <button id="settings-btn" onClick={settingClick}>Settings</button>
     </div>
   );
 };
