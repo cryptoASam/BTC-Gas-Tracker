@@ -17,8 +17,6 @@
   "chrome_url_overrides": {
   },
   "permissions": [
-    "activeTab",
-    "storage",
     "alarms"
   ],
   "icons": {
