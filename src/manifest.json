@@ -17,7 +17,7 @@
   "chrome_url_overrides": {
   },
   "permissions": [
-    "activeTab",
+    "notifications",
     "storage",
     "alarms"
   ],

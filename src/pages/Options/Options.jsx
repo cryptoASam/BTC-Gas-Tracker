@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import './Options.css';
-import {SettingsPane, SettingsPage, SettingsContent, SettingsMenu} from 'react-settings-pane'
 
 
 const Options = () => {

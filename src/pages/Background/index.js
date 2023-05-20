@@ -33,8 +33,11 @@ function setAlertIfNeed(gasPrice) {
     const notificationFrequency = result.notificationFrequency || 30;
     console.log('notificationFrequency', notificationFrequency);
     const currentTime = Date.now();
-    if (currentTime - lastNotificationTime >= notificationFrequency * 60 * 1000) {
+    console.log('currentTime', currentTime);
+    console.log('lastNotificationTime', lastNotificationTime);
+    if (currentTime - lastNotificationTime >= notificationFrequency * 60 * 1000 && notificationFrequency !== 0) {
       console.log('cannot send notification because of frequency');
+      chrome.storage.sync.set({ lastNotificationTime: currentTime });
       return;
     }
     // Check gas fee and send notification if it meets the condition
@@ -55,6 +58,7 @@ function setAlertIfNeed(gasPrice) {
       });
       console.log('have send notification less than');
     }
+    chrome.storage.sync.set({ lastNotificationTime: currentTime });
   });
 }
 
