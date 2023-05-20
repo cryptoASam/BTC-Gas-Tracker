@@ -35,6 +35,7 @@ function setAlertIfNeed(gasPrice) {
     const currentTime = Date.now();
     if (currentTime - lastNotificationTime >= notificationFrequency * 60 * 1000) {
       console.log('cannot send notification because of frequency');
+      return;
     }
     // Check gas fee and send notification if it meets the condition
     if (notificationCondition === 'greater-than' && gasPrice > gasFeeThreshold) {
