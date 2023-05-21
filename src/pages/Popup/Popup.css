@@ -14,7 +14,7 @@ body {
 .popup {
   display: flex;
   flex-direction: column;
-	height: 392px;
+	height: 432px;
   min-width: 345px;
   padding: 10px 1 0px;
   align-items: center;
@@ -142,7 +142,36 @@ body {
   height: auto;
 }
 
+.explain {
+  justify-content: center;
+  align-items:  center;
+  display: flex;
+  font-size: 12px !important;;
+  font-weight: 600;
+  height: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
+.bottomSettingsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.gear-icon {
+  color: red; 
+  margin-right: 2px;
+}
+
+.bottomSettingsContainer:hover {
+  background-color: #f0f0f0;
+}
+
+.bottomSettingsContainer:active {
+  background-color: #d9d9d9;
+}
 
 /* Absolute Center Spinner */
 .loading {

@@ -2,7 +2,8 @@ import * as React from 'react';
 import browser from 'webextension-polyfill';
 import './Popup.css';
 import { useState, useEffect } from 'react';
-
+import Switch from "react-switch";
+import { FiSettings } from 'react-icons/fi';
 function settingClick() {
   chrome.runtime.openOptionsPage();
 }
@@ -16,6 +17,34 @@ const Popup = () => {
   const [standardGasPriceTextUsd, setStandardGasPriceTextUsd] = useState(0);
   const [cheapGasPriceTextUsd, setCheapGasPriceTextUsd] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [notifyEnabled, setNotifyEnabled] = useState(false);
+ 
+  function handleSwitchChange(){
+    if(notifyEnabled){
+      chrome.storage.sync.set({ notifyEnabledState: false });
+      setNotifyEnabled(!notifyEnabled)
+      console.log("notify disabled notifyEnabledState: false")
+
+    }else{
+      chrome.storage.sync.set({ notifyEnabledState: true });
+      setNotifyEnabled(true)
+    }
+  }
+
+  function needFirstLoading() {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(['isFirstLoadingState'], function(result) {
+        const isFirstLoading = result.isFirstLoadingState;
+        console.log("get isFirstLoadingState: " + isFirstLoading);
+        resolve(isFirstLoading);
+      });
+    });
+  }
+
+
+  function setFirstLoading(state){
+    chrome.storage.sync.set({ isFirstLoadingState: state });
+  }
 
   async function getGasPrice() {
     try {
@@ -56,16 +85,26 @@ const Popup = () => {
   }
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      let isFirstLoading = await needFirstLoading();
+      console.log('isFirstLoading value is ',isFirstLoading);
+      setLoading(true && isFirstLoading);
       await getGasPrice();
       setLoading(false);
     };
     fetchData();
+    setFirstLoading(false);
     const interval = setInterval(() => {
       fetchData();
     }, 10000);
+
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    chrome.storage.sync.get(['notifyEnabledState'], function(result) {
+      setNotifyEnabled(result.notifyEnabledState);
+      console.log('Value currently is ' + result.notifyEnabledState);
+    })});
 
   return (
     <div className="popup">
@@ -125,7 +164,15 @@ const Popup = () => {
           </div>
         </div>
       </div>
-      <button id="settings-btn" onClick={settingClick}>Settings</button>
+      <div className='gasContainer'>
+        <Switch onChange={handleSwitchChange} checked={notifyEnabled} />
+        <div className='explain'>Enable Gas Notifications,click the setting button below to set the parameters</div>
+      </div>
+      <div className='bottomSettingsContainer' onClick={settingClick}>
+        <FiSettings className='gear-icon' />
+        <button id="settings-btn" onClick={settingClick}>Settings</button>
+      </div>
+      
     </div>
   );
 };

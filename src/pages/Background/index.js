@@ -10,7 +10,7 @@ browser.runtime.onInstalled.addListener(() => {
 
 async function updateIcon() {
   const gasPrice = await getCurrentGasPrice();
-  console.log('update data');
+  // console.log('update data');
   chrome.action.setBadgeText({ text: `${gasPrice}`});
   setAlertIfNeed(gasPrice);
 }
@@ -24,18 +24,24 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 function setAlertIfNeed(gasPrice) {
-  chrome.storage.sync.get(['notificationFrequency','gasFeeThreshold', 'notificationCondition','lastNotificationTime'], (result) => {
+  chrome.storage.sync.get(['notificationFrequency','gasFeeThreshold', 'notificationCondition','lastNotificationTime','notifyEnabledState'], (result) => {
     const gasFeeThreshold = result.gasFeeThreshold || 50;
     console.log('gasFeeThreshold', gasFeeThreshold);
     const notificationCondition = result.notificationCondition || 'greater-than';
     console.log('notificationCondition', notificationCondition);
-    const lastNotificationTime = result.lastNotificationTime || 0;
+    const lastNotifiTime = result.lastNotificationTime || 0;
     const notificationFrequency = result.notificationFrequency || 30;
     console.log('notificationFrequency', notificationFrequency);
+    const notifyEnabledState = result.notifyEnabledState || false;
+    console.log('notifyEnabledState', notifyEnabledState);
     const currentTime = Date.now();
     console.log('currentTime', currentTime);
     console.log('lastNotificationTime', lastNotificationTime);
-    if (currentTime - lastNotificationTime >= notificationFrequency * 60 * 1000 && notificationFrequency !== 0) {
+    if (!notifyEnabledState) {
+      console.log('cannot send notification because of disabled');
+      return;
+    }
+    if ((currentTime - lastNotifiTime >= notificationFrequency * 60 * 1000) && notificationFrequency !== 0) {
       console.log('cannot send notification because of frequency');
       chrome.storage.sync.set({ lastNotificationTime: currentTime });
       return;
@@ -46,7 +52,7 @@ function setAlertIfNeed(gasPrice) {
         type: 'basic',
         iconUrl: 'assets/icons/gas-pump.png',
         title: 'Gas fee is high',
-        message: `Gas fee is ${gasPrice} sats/byte`
+        message: `Gas fee is ${gasPrice} sats/vB`
       });
       console.log('have send notification more than');
     } else if (notificationCondition === 'less-than' && gasPrice < gasFeeThreshold) {
@@ -54,7 +60,7 @@ function setAlertIfNeed(gasPrice) {
         type: 'basic',
         iconUrl: 'assets/icons/gas-pump.png',
         title: 'Gas fee is low',
-        message: `Gas fee is ${gasPrice} sats/byte`
+        message: `Gas fee is ${gasPrice} sats/vB`
       });
       console.log('have send notification less than');
     }

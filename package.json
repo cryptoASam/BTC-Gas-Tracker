@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-boilerplate-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A chrome extension boilerplate built with React 18, Webpack 5, and Webpack Dev Server 4",
   "license": "MIT",
   "repository": {
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "advanced-css-reset": "^1.2.2",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "webextension-polyfill": "^0.10.0"
@@ -45,8 +46,10 @@
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.8.3",
+    "react-icons": "^4.8.0",
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.7",
+    "react-switch": "^7.0.0",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
     "source-map-loader": "^3.0.1",
